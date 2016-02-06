@@ -46,6 +46,12 @@ Plug 'ctrlpvim/ctrlp.vim'
 " Color Scheme
 Plug 'vim-scripts/obsidian2.vim'
 
+" Indent handling
+Plug 'hynek/vim-python-pep8-indent'
+
+" Format
+Plug 'michaeljsmith/vim-indent-object'
+
 call plug#end()
 
 
@@ -53,7 +59,7 @@ call plug#end()
 colo obsidian2
 
 " Turn on file type handling
-filetype plugin on
+filetype plugin indent on
 
 " Turn syntax highlighting on
 syntax on
@@ -73,9 +79,6 @@ autocmd FileType python set shiftwidth=4
 autocmd FileType python set tabstop=8
 autocmd FileType python set softtabstop=4
 autocmd FileType python set autoindent
-
-" Turn on omni completion (code completion) for python files
-autocmd FileType python set omnifunc=pythoncomplete#Complete
 
 " Airline plugin (status bar and buffer manager)
 let g:airline_theme = 'bubblegum'
@@ -108,5 +111,7 @@ let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
 let g:syntastic_error_symbol = "✗✗"
 let g:syntastic_warning_symbol = "!!"
+" Flake8 line length
+let g:syntastic_python_flake8_args = "--max-line-length=100"
 " Ignore [invalid-name] pylint warnings. A bit limiting.
 let g:syntastic_python_pylint_post_args='--disable=invalid-name'
