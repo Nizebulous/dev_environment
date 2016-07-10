@@ -5,16 +5,10 @@ call plug#begin('~/.vim/plugged')
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 
-" Code completion
-" Requires installing CMake with Homebrew
-" For c and js:
-" ./install.py --clang-completer --tern-completer --gocode-completer
-" (in YouCompleteMe folder)
-Plug 'Valloric/YouCompleteMe'
-
-" UltiSnips - code snippets
-Plug 'SirVer/ultisnips'
-Plug 'honza/vim-snippets'
+" Python code completion
+" https://github.com/davidhalter/jedi-vim
+Plug 'davidhalter/jedi-vim'
+Plug 'ervandew/supertab'
 
 " Surround - change surrounding elements ()'s, {}'s, ...
 " Examples:
@@ -49,8 +43,21 @@ Plug 'vim-scripts/obsidian2.vim'
 " Indent handling
 Plug 'hynek/vim-python-pep8-indent'
 
-" Format
-Plug 'michaeljsmith/vim-indent-object'
+"
+" Javascript
+"
+
+" pangloss/vim-javascript
+" https://github.com/pangloss/vim-javascript
+Plug 'pangloss/vim-javascript'
+
+" vim-javascript-syntax
+" https://github.com/jelera/vim-javascript-syntax
+Plug 'jelera/vim-javascript-syntax'
+
+" mxw/vim-jsx
+" https://github.com/mxw/vim-jsx
+Plug 'mxw/vim-jsx'
 
 call plug#end()
 
@@ -58,14 +65,15 @@ call plug#end()
 " Set the color scheme
 colo obsidian2
 
-" Turn on file type handling
-filetype plugin indent on
-
 " Turn syntax highlighting on
 syntax on
+set background=dark
 
 " Show line numbers
 set number
+
+" Turn on file type handling
+" filetype plugin indent on
 
 " Autoload changes when files change outsid of vim
 set autoread
@@ -73,32 +81,14 @@ set autoread
 " Auto whitespace cleaning
 autocmd BufWritePre * :%s/\s\+$//e
 
-" Python spacing settings
-autocmd FileType python set expandtab
-autocmd FileType python set shiftwidth=4
-autocmd FileType python set tabstop=8
-autocmd FileType python set softtabstop=4
-autocmd FileType python set autoindent
+" jedi-vim configuration
+let g:jedi#use_splits_not_buffers = "left"
 
 " Airline plugin (status bar and buffer manager)
 let g:airline_theme = 'bubblegum'
 let g:airline#extensions#tabline#enabled = 1
 " This makes sure Airline loads even with a single buffer
 set laststatus=2
-
-" YouCompleteMe Configuration
-let g:ycm_collect_identifiers_from_tags_files = 1 " Let YCM read tags from Ctags file
-let g:ycm_use_ultisnips_completer = 1 " Default 1, just ensure
-let g:ycm_seed_identifiers_with_syntax = 1 " Completion for programming language's keyword
-let g:ycm_complete_in_comments = 1 " Completion in comments
-let g:ycm_complete_in_strings = 1 " Completion in string
-let g:ycm_autoclose_preview_window_after_insertion = 1 " Make sure buffer closes after selection
-
-" UltiSnips Configuration
-let g:UltiSnipsExpandTrigger       = "<c-j>"
-let g:UltiSnipsJumpForwardTrigger  = "<c-j>"
-let g:UltiSnipsJumpBackwardTrigger = "<c-p>"
-let g:UltiSnipsListSnippets        = "<c-k>" " List possible snippets based on current file
 
 " Syntastic Configuration
 set statusline+=%#warningmsg#
@@ -114,4 +104,7 @@ let g:syntastic_warning_symbol = "!!"
 " Flake8 line length
 let g:syntastic_python_flake8_args = "--max-line-length=100"
 " Ignore [invalid-name] pylint warnings. A bit limiting.
-let g:syntastic_python_pylint_post_args='--disable=invalid-name'
+let g:syntastic_python_pylint_post_args='--disable=invalid-name,missing-docstring,old-style-class,no-init,too-few-public-methods,too-many-ancestors'
+
+" javascript JSX support
+let g:syntastic_javascript_checkers = ['jsxhint']
