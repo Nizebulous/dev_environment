@@ -72,6 +72,9 @@ set background=dark
 " Show line numbers
 set number
 
+" Highlight current line
+set cursorline
+
 " Turn on file type handling
 " filetype plugin indent on
 
